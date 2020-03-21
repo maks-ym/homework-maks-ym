@@ -40,8 +40,13 @@ def countries_with_no_deaths_count(date: datetime.date) -> int:
     :return: Number of countries with no deaths but with active cases on a given date as an integer
     """
     
-    # Your code goes here
-    pass
+    date_str = date.strftime('%m/%d/%y').lstrip("0").replace(" 0", " ").replace("/0","/")
+    yesterday = date - datetime.timedelta(days=1)
+    yesterday_str = yesterday.strftime('%m/%d/%y').lstrip("0").replace(" 0", " ").replace("/0","/")
+    
+    where_new_cases = confirmed_cases.loc[confirmed_cases[date_str] - confirmed_cases[yesterday_str] != 0].index
+    selected_no_deaths = dfD[date_str].loc[where_new_cases].loc[dfD[date_str] == 0]
+    return len(selected_no_deaths)
 
 
 def more_cured_than_deaths_indices(date: datetime.date) -> List[int]:

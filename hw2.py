@@ -68,4 +68,6 @@ def more_cured_than_deaths_indices(date: datetime.date) -> List[int]:
     """
     
     # Your code goes here
-    pass
+    date_str = date.strftime('%m/%d/%y').lstrip("0").replace(" 0", " ").replace("/0","/")
+    more_cured = dfC.loc[dfD[date_str] < dfR[date_str]].index
+    return more_cured
